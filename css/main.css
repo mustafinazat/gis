@@ -1,0 +1,265 @@
+﻿    /* <!-- выделение кликом, результат поиска  -->	 */
+	#mapDiv_graphics_layer path
+	{
+	stroke-opacity: 0.5;
+	stroke: rgb(255, 0, 0);
+	stroke-width:4;
+	fill: rgba(20, 0, 255, 0.44);
+	}
+	
+	
+  #tabs
+  {
+  width: 290px;
+  float:left;
+  
+  }
+  
+  
+  #mapDiv {
+	clear: both;
+   	height:98%;
+	margin-left: 0px;
+  }
+	 /* <!-- легенда --> */
+	#legendDiv
+	{
+	overflow: auto;
+	}
+	
+	
+	
+	#search{
+	position: fixed;
+	top: 5px;
+	right: 5px;
+	z-index:1;
+	clear:both;
+	}
+	
+	  .main-content h3 {
+	  font-size: 18px;
+	   display:inline;
+	   float: left;
+	   color: #007fff;
+	   margin: 0px 0px 0 10px;
+	   padding-top: 5px;
+	   }
+	   
+	  /* <!-- всплывающее окно  --> */
+	.esriPopup .contentPane
+	{
+	
+	position: relative;
+    max-height: 300px;
+    overflow: auto;
+    padding: 10px 6px 6px 10px;
+    
+	font-size:14px;
+	text-align: left;
+	font-family: Сomic Sans MS , 'Times New Roman', Times, serif !important;
+	
+	 
+	 }
+	 
+	
+	
+.esriPopup .titlePane
+{
+    background-color: #3399ff !important;
+    color: #FFFFFF;
+    line-height: 20px;
+    padding-left: 6px;
+    cursor: default
+}
+	
+	  body, html {
+          height: 100%;
+		  min-width: 660px;
+          margin: 0;
+          overflow:hidden;
+          font-family: helvetica;
+          font-weight: 100;
+      }
+	  
+	  
+	     /* <!-- слева который блок  --> */
+      .container {
+          position: relative;
+          height: 100%;
+          width: 100%;
+          left: 0;
+          -webkit-transition:  left 0.4s ease-in-out;
+          -moz-transition:  left 0.4s ease-in-out;
+          -ms-transition:  left 0.4s ease-in-out;
+          -o-transition:  left 0.4s ease-in-out;
+          transition:  left 0.4s ease-in-out;
+      }
+      .container.open-sidebar {
+          left: 280px;
+      }
+      
+      .swipe-area {
+          position: absolute;
+          width: 50px;
+          left: 0;
+      top: 0;
+          height: 100%;
+          background: #f3f3f3;
+          z-index: 0;
+      }
+      #sidebar {
+          overflow:auto;
+          position: absolute;
+          width: 290px;
+          height: 100%;
+          left: -290px;
+		  display: inline;
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+      }
+      #sidebar ul {
+	  
+          margin: 0;
+          padding: 0;
+          list-style: none;
+      }
+      #sidebar ul li {
+          margin: 0;
+      }
+	   /* <!-- фото  --> */
+	  #tabs-2 img {
+	  
+	  width:200px;
+	  height: 200px;
+	  }
+	  
+	   #tabs-1{
+	  
+	  overflow: auto !important;
+	  }
+	  
+	  #tabs-2{
+	  
+	  overflow: auto !important;
+	  }
+	  
+	  #tabs-4{
+	  height:100%;
+	  overflow: auto !important;
+	  }
+	  
+	  #HomeButton {
+      position: absolute;
+      top: 130px;
+      left: 29px;
+      z-index: 50;
+    }
+	 /* <!-- измерения  --> */
+	.createDIV
+	{
+	background-color:#818080;
+	width:32px;
+	height: 32px;
+    position: absolute;
+    top: 170px;
+      left: 29px;
+      z-index: 50;
+	  border-radius: 2px;
+    }
+	.createDIV:hover
+	{
+	background-color:#4d4d4d;
+	
+    }
+	
+
+	  #titlePane{
+	  border-radius: 5px 5px 0 0 ;
+	  border: 1px solid #818080;
+	  border-bottom: none;
+	    position: absolute;
+	  top: 205px;
+      left: 29px;
+        width:280px;
+		height: 200px; 
+		 z-index: 50;
+		background-color: white;
+      }
+	  
+	  #measure_off
+	  {
+	  text-align: center;
+	   border: 1px solid #818080;
+	   border-top: none;
+	   width:280px;
+	  background-color: white;
+	  border-radius:0 0 5px 5px  ;
+	  }
+	   #measure_off:hover
+	  {
+	  
+	  background-color: #4d4d4d;
+	  color: white;
+	  }
+
+    
+      /* <!-- основной блок  --> */
+      .main-content {
+          width: 100%;
+          height: 100%;
+          padding: 10px;
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          position: relative;
+      }
+      
+     
+      
+      .main-content #sidebar-toggle {
+          background: #007fff;
+          border-radius: 3px;
+          display: block;
+          position: relative;
+          padding: 10px 7px;
+          float: left;
+      }
+      .main-content #sidebar-toggle .bar{
+           display: block;
+          width: 18px;
+          margin-bottom: 3px;
+          height: 2px;
+          background-color: #fff;
+          border-radius: 1px;   
+      }
+      .main-content #sidebar-toggle .bar:last-child{
+           margin-bottom: 0;   
+      }
+	  
+	  
+	   .fancybox-custom .fancybox-skin {
+			box-shadow: 0 0 50px #222;
+		}
+		
+		 /* <!-- слои  --> */
+		#tabs-3 >ul
+		
+		{
+		width:95%;
+		
+		}
+	#tabs-3 li
+	{
+	color: #0000;
+	font-size:14px;
+	border-top: 2px solid #dbdbdb;
+	border-bottom: 2px solid #dbdbdb;
+	padding: 7px;
+	}
+	
+	#tabs-3 ul ul li
+	
+	{
+		padding-left: 25px;
+	}
+	
