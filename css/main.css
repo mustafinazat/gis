@@ -1,4 +1,4 @@
-﻿    /* <!-- выделение кликом, результат поиска  -->	 */
+    /* <!-- выделение кликом, результат поиска  -->	 */
 	#mapDiv_graphics_layer path
 	{
 	stroke-opacity: 0.5;
@@ -250,7 +250,7 @@
 		}
 	#tabs-3 li
 	{
-	color: #0000;
+	color: black;
 	font-size:14px;
 	border-top: 2px solid #dbdbdb;
 	border-bottom: 2px solid #dbdbdb;
