@@ -1,0 +1,751 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Проект 15-01-12014 Геоинформационная система «Ислам на Южном Урале»</title>
+   <link rel="stylesheet" href="https://js.arcgis.com/3.18/dijit/themes/claro/claro.css">
+  <link rel="stylesheet" href="https://js.arcgis.com/3.18/esri/css/esri.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+  <script src="js/jquery-1.12.4.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script type="text/javascript" src="js/jquery.touchSwipe.min.js"></script>
+  <!-- Add mousewheel plugin (this is optional) -->
+	<script type="text/javascript" src="fancy/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+	<!-- Add fancyBox main JS and CSS files -->
+	<script type="text/javascript" src="fancy/source/jquery.fancybox.js?v=2.1.5"></script>
+	<link rel="stylesheet" type="text/css" href="fancy/source/jquery.fancybox.css?v=2.1.5" media="screen" />
+	<link rel="stylesheet" href="css/main.css">
+  <script>
+  $( function() {
+    $( "#tabs" ).tabs();
+  } );
+  </script>
+  <script type="text/javascript">
+      $(window).load(function(){
+        $("[data-toggle]").click(function() {
+          var toggle_el = $(this).data("toggle");
+          $(toggle_el).toggleClass("open-sidebar");
+        });
+         $(".swipe-area").swipe({
+              swipeStatus:function(event, phase, direction, distance, duration, fingers)
+                  {
+                      if (phase=="move" && direction =="right") {
+                           $(".container").addClass("open-sidebar");
+                           return false;
+                      }
+                      if (phase=="move" && direction =="left") {
+                           $(".container").removeClass("open-sidebar");
+                           return false;
+                      }
+                  }
+          }); 
+      });
+      
+    </script>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			$('.fancybox').fancybox();
+$('#titlePane').hide();
+$('.createDIV').click(function(){
+    $(this).next().slideToggle();
+});
+
+		});
+	</script>
+	
+  <script src="https://js.arcgis.com/3.18/"></script>
+   <script>var dojoConfig = { parseOnLoad: true };</script>
+   <script>
+   var map, pic1url,pic2url,pic3url,pic4url,titleMQ;
+  
+  require([
+    "esri/map", 
+    "esri/config",
+	 "esri/layers/FeatureLayer", 
+    "esri/TimeExtent",
+    "esri/dijit/HistogramTimeSlider",
+    "esri/dijit/BasemapGallery",
+    "esri/InfoTemplate",
+    "dojo/dom-construct",
+    "esri/dijit/Scalebar",  
+    "esri/dijit/Popup",
+	  "esri/dijit/LayerSwipe",
+	    "esri/dijit/LayerList",
+    "esri/dijit/PopupTemplate",
+    "esri/dijit/Search", 
+	"esri/dijit/HomeButton",
+	"esri/dijit/Measurement",
+    "esri/symbols/TextSymbol",
+    "esri/renderers/UniqueValueRenderer",
+	"esri/renderers/ClassBreaksRenderer",
+"esri/renderers/SimpleRenderer",
+"esri/renderers/ScaleDependentRenderer",
+    "esri/layers/LabelClass",
+    "esri/symbols/SimpleMarkerSymbol",
+"esri/symbols/SimpleLineSymbol",
+"esri/symbols/SimpleFillSymbol",
+    "esri/symbols/PictureMarkerSymbol",
+    "esri/tasks/GeometryService",
+    "esri/Color",
+    "esri/dijit/Legend",
+	"dojo/_base/array", 
+    "dojo/parser",
+	"dojo/_base/connect", 
+	"dojo/on",
+    "dojo/dom",
+	"dojox/charting/Chart", "dojox/charting/themes/Dollar",
+    "dijit/registry",
+	"dijit/layout/BorderContainer", 
+    "dijit/layout/ContentPane", 
+	"dijit/TitlePane",
+	"dijit/form/CheckBox",
+    "dijit/layout/AccordionContainer", 
+    "dojo/domReady!"
+    ], 
+
+  function( 
+    Map, 
+    esriConfig,
+	
+    FeatureLayer, 
+    TimeExtent,
+    HistogramTimeSlider,
+    BasemapGallery, 
+    InfoTemplate, 
+    domConstruct,
+    Scalebar, 
+    Popup,
+	LayerSwipe,
+	LayerList,
+    PopupTemplate, 
+    Search, 
+	HomeButton,
+	Measurement,
+    TextSymbol,
+UniqueValueRenderer,
+ClassBreaksRenderer,
+SimpleRenderer,
+ScaleDependentRenderer,
+    LabelClass,
+    SimpleMarkerSymbol,
+SimpleLineSymbol,
+SimpleFillSymbol,
+PictureMarkerSymbol,
+    GeometryService,
+    Color,
+    Legend,
+	arrayUtils, 
+    parser,
+	connect,
+	on,
+        dom,Chart,theme,
+        registry
+      ) 
+    {
+      parser.parse();
+      
+      map = new Map("mapDiv", {
+        basemap:"osm",
+        center: [55.8, 54.4],
+        zoom: 7,
+        logo:false,
+		showLabels : true
+       
+      });
+	  
+	  map.on("layers-add-result",function(){
+	mosq.on("click", azaza);
+	});
+		  function azaza(evt){
+		 map.graphics.clear();
+	
+  pic1url=evt.graphic.attributes.pic1;
+  pic2url=evt.graphic.attributes.pic2;
+  pic3url=evt.graphic.attributes.pic3;
+  pic4url=evt.graphic.attributes.pic4;
+  titleMQ="Район: "+evt.graphic.attributes.district+", "+evt.graphic.attributes.locality;
+  if (evt.graphic.attributes.build_name!=null) {titleMQ=titleMQ+ ", "+evt.graphic.attributes.build_name;}
+  
+  
+createDIVpic(pic1url,pic2url,pic3url,pic4url,titleMQ);
+   };
+		function createDIVpic()
+		 
+		 {
+		 document.getElementById ('tabs-2').innerHTML="";
+		 var tab2=document.getElementById ('tabs-2'); 
+		 for (var i = 0; i < arguments.length-1; i++) {
+		 if (arguments[i]!=null){
+		 var link= document.createElement('a');
+		 link.setAttribute('class', 'fancybox');
+		  link.setAttribute('data-fancybox-group', 'gallery');
+		   link.setAttribute('title', arguments[arguments.length-1]);
+ link.setAttribute('href', arguments[i]);
+    var img = document.createElement ('img');
+	img.setAttribute('src', arguments[i]);
+	
+	
+	link.appendChild(img);
+	tab2.appendChild(link)
+	}
+	 if (arguments[0]==null){
+	var p = document.createElement ('p');
+	p.innerText="Фотографий нет";
+	tab2.appendChild(p);
+	return;
+	}
+  }
+
+		 }
+	
+
+  var popupTemplate1 = new PopupTemplate({
+            
+  title: "Информация о мечети ",
+
+  description:"<b>Название:</b>{build_name}<br/>"+
+              "<b>Регион: </b>{region}<br/>"+
+              "<b>Район: </b>{district}<br/>"+
+              "<b>Населенный пункт: </b>{locality}<br/>"+
+              "<b>Организация: </b>{affiliation}<br/>"+
+              "<b>Адрес: </b>{address}<br/>"+
+              "<b>Дата открытия: </b>{year_construct:DateFormat(selector: 'date', datePattern: 'yyyy', fullYear: true)} г.<br>"+
+              "<b>ФИО имама: </b> {fullname_imam}<br/>"+
+              "<b>{searchMoreResultsHtml}</b>",
+  
+
+  });
+  
+  var popupTemplate2 = new PopupTemplate({
+
+  title: "Информация об объекте поклонения ",
+
+  description:"<b>Регион:</b>{region}<br/>"+
+              "<b>Район: </b>{district}<br/>"+
+              "<b>Населенный пункт: </b> {locality}<br/>"+
+              "<b>Тип объекта: </b> {type_object}<br/>"+
+              "<b>Название объекта: </b> {name_object}<br/>"+
+              "<b>{searchMoreResultsHtml}</b>",
+ 
+
+  });
+
+  var identifyPopup3 = new PopupTemplate({
+
+  title: "Информация о предприятии халяль",
+
+  description:"<b>Регион:</b>{region}<br/>"+
+              "<b>Район: </b>{district}<br/>"+
+              "<b>Населенный пункт: </b> {locality}<br/>"+
+              "<b>Адрес: </b> {address}<br/>"+
+              "<b>Название предприятия: </b> {company_name}<br/>"+
+              "<b>Эл. почта собственника: </b> {owner_email}<br/>"+
+              "<b>{searchMoreResultsHtml}</b>",
+
+
+  });
+  
+   var identifyPopup4 = new PopupTemplate({
+
+  title: "Информация о медресе",
+
+  description:"<b>Регион:</b>{region}<br/>"+
+              "<b>Населенный пункт: </b> {gorod}<br/>"+
+              "<b>Адрес: </b> {adress}<br/>"+
+              "<b>Тип учебного заведения: </b> {tip_ucebn_zaveden}<br/>"+
+              "<b>Название: </b> {nazvanie}<br/>"+
+              "<b>Принадлежность к ДУМ: </b> {affiliation}<br/>"+
+			  "<b>Год учреждения: </b> {year_of_uchrezd}<br/>"+
+			  "<b>Ректор: </b> {rektor}<br/>"+
+			  "<b>Форма обучения: </b> {form_obuch}<br/>"+
+			  "<b>Заочное отделение: </b> {zaochn_otdel}<br/>"+
+			  "<b>Женское отделение: </b> {zhensk_otdel}<br/>"+
+              "<b>{searchMoreResultsHtml}</b>",
+
+  });
+
+  //шкала
+  var scalebar = new Scalebar({
+    map: map,
+    attachTo: "bottom-left",
+    scalebarUnit: "metric"
+  });
+
+  //поиск
+  var search = new Search({
+    enableButtonMode: false,
+    enableLabel: true,
+    enableInfoWindow: true,
+    showInfoWindowOnSelect: true,
+    map: map
+  }, "search");
+
+var regionColor = new Color("black");
+  var regionLabel = new TextSymbol().setColor(regionColor);
+        regionLabel.font.setSize("11pt");
+        regionLabel.font.setFamily("Times New Roman");
+         var json1 = {
+          "labelExpressionInfo": {"value": "{region}"}
+        };
+
+  var identifyPopupReg = new PopupTemplate({
+
+  title: "<b>Регион:</b>   {region}<br/>",
+  description:"<b>Количество мечетей ДУМ РБ: </b>{count_dum}<br/>"+
+			  "<b>Количество мечетей ЦДУМ: </b>{count_cdum}<br/>"+
+			  "<b>Количество объектов поклонения: </b>{count_oow}<br/>"+
+			  "<b>Количество предприятий халяль: </b>{count_halal}<br/>"+
+               "<b>{searchMoreResultsHtml}</b>",
+			   
+			   fieldInfos: [{ //define field infos so we can specify an alias
+            fieldName: "count_dum",
+            label: "Количество мечетей ДУМ РБ"
+          },{
+		    fieldName: "count_cdum",
+            label: "Количество мечетей ЦДУМ"
+          },{
+            fieldName: "count_oow",
+            label: "Количество объектов поклонения"
+          },{
+            fieldName: "count_halal",
+            label: "Количество предприятий халяль"
+          }
+		  ],
+          mediaInfos:[{ //define the chart
+            caption: "",
+            type:"columnchart",
+            value:{
+                           fields:["count_dum","count_cdum","count_oow", "count_halal"]
+            }
+          }]
+
+
+  });
+  
+  var borders = new FeatureLayer("https://services7.arcgis.com/SXWYzLQY3xhpoeii/ArcGIS/rest/services/GISISL/FeatureServer/3",{
+          mode: FeatureLayer.MODE_SNAPSHOT,
+		    infoTemplate: identifyPopupReg,
+          //displayOnPan: false,
+    //refreshInterval: 0,
+          outFields: ["*"],
+		  
+        });
+		var labelClassREGION = new LabelClass(json1);
+        labelClassREGION.symbol = regionLabel; // symbol also can be set in LabelClass' json
+        labelClassREGION.minScale = 20000000;
+        labelClassREGION.maxScale= 4000000;
+        borders.setLabelingInfo([ labelClassREGION ]);
+		
+		var rendererforBorder = new UniqueValueRenderer(null, "region"); 
+		//цвета регионов
+        //add symbol for each possible value
+        rendererforBorder.addValue("Республика Башкортостан", new SimpleFillSymbol("solid", new SimpleLineSymbol("solid", "#666", 1), new Color([255, 153, 255, 0.5])));//цвет башкортостана
+		rendererforBorder.addValue("Оренбургская область", new SimpleFillSymbol("solid", new SimpleLineSymbol("solid", "#666", 1), new Color([255, 201, 121, 0.5]))); 
+		rendererforBorder.addValue("Челябинская область", new SimpleFillSymbol("solid", new SimpleLineSymbol("solid", "#666", 1), new Color([153, 204, 0, 0.5])));
+  		borders.setRenderer(rendererforBorder);
+
+  var mosq = new FeatureLayer("https://services7.arcgis.com/SXWYzLQY3xhpoeii/ArcGIS/rest/services/GISISL/FeatureServer/5",{    
+      mode: FeatureLayer.MODE_SNAPSHOT,
+      infoTemplate: popupTemplate1,
+	  title: "Мечети",
+      outFields:["*"]
+    });
+	
+	var rendererforMQ = new UniqueValueRenderer(null, "affiliation");
+
+          //add symbol for each possible value
+          rendererforMQ.addValue("ДУМ РБ", new PictureMarkerSymbol("icon/web/dumNEW.png", 8 ,11));
+		  rendererforMQ.addValue("ЦДУМ", new PictureMarkerSymbol("icon/web/cdumNEW1.png", 8 ,11));
+		  rendererforMQ.addValue("Нет данных", new PictureMarkerSymbol("icon/web/nodataNEW.png", 8 ,11));
+		
+	  mosq.setRenderer(rendererforMQ);
+	
+
+  var oow = new FeatureLayer("https://services7.arcgis.com/SXWYzLQY3xhpoeii/ArcGIS/rest/services/GISISL/FeatureServer/4",{    
+      mode: FeatureLayer.MODE_ONDEMAND,
+      infoTemplate: popupTemplate2,
+      outFields:["*"]
+    });
+	
+	var rendererforPOKL = new UniqueValueRenderer(null, "type_object");
+		  rendererforPOKL.addValue("аулия кабере", new PictureMarkerSymbol("icon/web/otzahorNEW.png", 10 ,10));
+		  rendererforPOKL.addValue("кладбище", new PictureMarkerSymbol("icon/web/kladbNEW.png", 10 ,10));
+		  rendererforPOKL.addValue("отдельное захоронение ", new PictureMarkerSymbol("icon/web/rim.png", 10 ,10));
+		  rendererforPOKL.addValue("здание", new PictureMarkerSymbol("icon/web/mavz.png", 10 ,10));
+		  rendererforPOKL.addValue("курган", new PictureMarkerSymbol("icon/web/kurgan.png", 10 ,10));
+		  rendererforPOKL.addValue("дольмен", new PictureMarkerSymbol("icon/web/kamPIRnEW.png", 15 ,15));
+		  rendererforPOKL.addValue("мечеть", new PictureMarkerSymbol("icon/web/gim.png", 10 ,10));
+		  rendererforPOKL.addValue("родник", new PictureMarkerSymbol("icon/web/rodnik.png", 10 ,10));
+		  rendererforPOKL.addValue("памятник", new PictureMarkerSymbol("icon/web/stoneNEW.png", 10 ,10));
+		  rendererforPOKL.addValue("иное", new PictureMarkerSymbol("icon/web/inoe.png", 15 ,15));
+		   oow.setRenderer(rendererforPOKL);
+		   
+  var halal = new FeatureLayer("https://services7.arcgis.com/SXWYzLQY3xhpoeii/ArcGIS/rest/services/GISISL/FeatureServer/0",{
+      mode: FeatureLayer.MODE_ONDEMAND,
+      infoTemplate:identifyPopup3,
+      outFields:["*"]
+      });
+	  
+var othersHALAL = new PictureMarkerSymbol("icon/web/halal.png", 10 ,10);
+	  var rendererforHALAL = new SimpleRenderer(othersHALAL);
+//rendererforHALAL.addValue("akaДУМ РБ", new PictureMarkerSymbol("icon/web/gim.png", 10 ,10));
+	  halal.setRenderer(rendererforHALAL);
+	  
+	  
+	  
+	   var medrese = new FeatureLayer("https://services7.arcgis.com/SXWYzLQY3xhpoeii/ArcGIS/rest/services/GISISL/FeatureServer/6",{
+      mode: FeatureLayer.MODE_ONDEMAND,
+      infoTemplate:identifyPopup4,
+      outFields:["*"]
+      });
+	  
+var othersMEDRESE = new PictureMarkerSymbol("icon/web/medrese.png", 10 ,10);
+	  var rendererforMEDRESE = new SimpleRenderer(othersHALAL);
+//rendererforHALAL.addValue("akaДУМ РБ", new PictureMarkerSymbol("icon/web/gim.png", 10 ,10));
+	  halal.setRenderer(rendererforMEDRESE);
+	  
+	 
+	 	  var identifyPopupMQ_DUM = new PopupTemplate({
+
+  title: "<strong>Район:</strong>   {Name}<br/>",
+  description:"<b>Количество мечетей ДУМ РБ: </b>{count_dum}<br/>"+
+			  "<b>Количество мечетей ЦДУМ: </b>{count_cdum}<br/>"+
+			  "<b>Количество объектов поклонения: </b>{count_oow}<br/>"+
+			  "<b>Количество предприятий халяль: </b>{count_halal}<br/>"+
+               "<b>{searchMoreResultsHtml}</b>",
+			   
+			   fieldInfos: [{ //define field infos so we can specify an alias
+            fieldName: "count_dum",
+            label: "Количество мечетей ДУМ РБ"
+          },{
+		    fieldName: "count_cdum",
+            label: "Количество мечетей ЦДУМ"
+          },{
+            fieldName: "count_oow",
+            label: "Количество объектов поклонения"
+          },{
+            fieldName: "count_halal",
+            label: "Количество предприятий халяль"
+          }
+		  ],
+          mediaInfos:[{ //define the chart
+            caption: "",
+            type:"columnchart",
+            value:{
+                           fields:["count_dum","count_cdum","count_oow", "count_halal"]
+            }
+          }]
+
+
+  });
+  
+	 var districts = new FeatureLayer("https://services7.arcgis.com/SXWYzLQY3xhpoeii/ArcGIS/rest/services/GISISL/FeatureServer/2",{
+      mode: FeatureLayer.MODE_ONDEMAND,
+	  infoTemplate:identifyPopupMQ_DUM,
+      outFields:["*"],
+	 
+      });
+	  var districtColor = new Color("black");
+  var districtLabel = new TextSymbol().setColor(districtColor);
+        districtLabel.font.setSize("10pt");
+        districtLabel.font.setFamily("Times New Roman");
+
+         var json = {
+          "labelExpressionInfo": {"value": "{NAME}"}
+         };
+		 var labelClass = new LabelClass(json);
+        labelClass.symbol = districtLabel; // symbol also can be set in LabelClass' json
+		districts.setLabelingInfo([labelClass]);
+		
+		
+		//цвета районов(голубая линия)
+		var dSymbol = new SimpleFillSymbol("solid", new SimpleLineSymbol("solid", "#0bfdfa", 1), null);
+		 var rendererforDS = new SimpleRenderer(dSymbol);
+    
+districts.setRenderer(rendererforDS);
+
+	  
+//цвета палитры распределения дум
+
+  var renderer_MQ_DUM = new ClassBreaksRenderer(null, "count_dum");
+  
+        renderer_MQ_DUM.addBreak(1, 8, new SimpleFillSymbol().setColor(new Color([255, 193, 128, 0.7])));
+        renderer_MQ_DUM.addBreak(8, 19, new SimpleFillSymbol().setColor(new Color([255, 144, 26, 0.7])));
+        renderer_MQ_DUM.addBreak(19, 35, new SimpleFillSymbol().setColor(new Color([204, 105, 0, 0.7])));
+        renderer_MQ_DUM.addBreak(35, 65, new SimpleFillSymbol().setColor(new Color([102, 51, 0, 0.7])));
+		
+	   
+//districts.setRenderer(renderer_MQ_DUM);
+
+//цвета палитры распределения цдум
+  var renderer_MQ_СDUM = new ClassBreaksRenderer(null, "count_cdum");
+ 
+		renderer_MQ_СDUM.addBreak(1, 4, new SimpleFillSymbol().setColor(new Color([153, 153, 255, 0.7])));
+        renderer_MQ_СDUM.addBreak(4, 10, new SimpleFillSymbol().setColor(new Color([77, 77, 255, 0.7])));
+        renderer_MQ_СDUM.addBreak(10, 15, new SimpleFillSymbol().setColor(new Color([0, 0, 230, 0.7])));
+        renderer_MQ_СDUM.addBreak(15, 30, new SimpleFillSymbol().setColor(new Color([0, 0, 128, 0.7])));
+        
+//MQ_СDUM.setRenderer(renderer_MQ_СDUM);
+
+
+  //Легенда
+  map.on("layers-add-result", function (evt) {
+      {
+       legendDijit = new Legend({
+          map: map,
+           layerInfos:[{layer:oow, title:"Объекты поклонения"},{layer:mosq, title:"Мечети "},{layer:medrese, title:"Медресе"},{layer:halal, title:"Предприятия халяль"}
+		   ,{layer:districts, title:"Районы"},{layer:borders, title:"Регионы"}]
+		   }, "legendDiv");
+          legendDijit.startup();
+        }
+      });
+
+      map.addLayers([borders, districts, oow, mosq, halal,medrese]);//,chirst]);
+
+	  
+var home = new HomeButton({
+        map: map
+      }, "HomeButton");
+      home.startup();
+	  
+	  
+	  var measurement = new Measurement({
+          map: map
+        }, dom.byId("measurementDiv"));
+        measurement.startup();
+
+document.getElementById('measure_off').onclick = function() {
+
+measurement.setTool("distance", false);
+measurement.setTool("location", false)
+measurement.setTool("area", false)
+measurement.clearResult();
+}
+
+      var  sources=[];
+
+  //добавление источников для поиска
+
+  
+  sources.push({
+    featureLayer:districts,
+    searchFields: ["NAME"],
+    exactMatch:false,
+    outFields: ["*"],
+	displayField: "NAME",
+    name: "Районы",
+    placeholder: "Поиск по названию",
+	suggestionTemplate: " ${NAME}",
+    maxResults: 6,
+    maxSuggestions: 6,
+	enableSuggestions: true,
+    minCharacters: 2
+  });
+    
+  
+  sources.push({
+    featureLayer:mosq,
+    searchFields: ["build_name","district","locality"],
+    exactMatch:false,
+    outFields: ["*"],
+	displayField: "build_name",
+    name: "Мечети",
+    placeholder: "Поиск по названию,району,нас.пункту",
+	suggestionTemplate: "${district}: ${locality}: ${build_name}",
+    maxResults: 6,
+    maxSuggestions: 6,
+	enableSuggestions: true,
+    minCharacters: 2
+  });
+  sources.push({
+    featureLayer:oow,
+    searchFields: ["name_object","district","locality","type_object"],
+    exactMatch:false,
+    outFields: ["*"],
+	displayField: "name_object",
+    name: "Объекты поклонения",
+    placeholder: "Поиск по типу/названию,району,нас.пункту",
+	suggestionTemplate: "${district}: ${locality}: ${name_object}",
+    maxResults: 6,
+    maxSuggestions: 6,
+	enableSuggestions: true,
+    minCharacters: 2
+  });
+  sources.push({
+    featureLayer: halal,
+    searchFields: ["company_name","district","locality"],
+    exactMatch:false,
+    outFields: ["*"],
+	displayField: "company_name",
+    name: "Предприятия халяль",
+    placeholder: "Поиск по названию,району,нас.пункту",
+	suggestionTemplate: "${district}: ${locality}: ${company_name}",
+    maxResults: 6,
+    maxSuggestions: 6,
+	enableSuggestions: true,
+    minCharacters: 2
+  });
+   sources.push({
+    featureLayer: medrese,
+    searchFields: ["nazvanie","gorod"],
+    exactMatch:false,
+    outFields: ["*"],
+	displayField: "nazvanie",
+    name: "Медресе",
+    placeholder: "Поиск по названию,нас.пункту",
+	suggestionTemplate: "${gorod}: ${nazvanie}",
+    maxResults: 6,
+    maxSuggestions: 6,
+	enableSuggestions: true,
+    minCharacters: 2
+  });
+    search.set("sources", sources);
+    search.startup();
+	
+	
+	 on(dom.byId("borderCheckBox"), "change", function () {
+                layerVisibility(borders, this.checked);
+            });
+			
+            on(dom.byId("distrCheckBox"), "change", function () {
+			if(this.checked==false){
+			dom.byId("dumCheckBox").checked=this.checked;
+			dom.byId("cdumCheckBox").checked=this.checked;
+			dom.byId("defCheckBox").checked=this.checked;
+			districts.setRenderer(rendererforDS);
+				mosq.setDefinitionExpression();
+				districts.refresh();
+				mosq.refresh();
+				legendDijit.refresh();
+			}
+			
+                layerVisibility(districts, this.checked);
+            });
+            on(dom.byId("mosqCheckBox"), "change", function () {
+                layerVisibility(mosq, this.checked);
+            });
+            on(dom.byId("halalCheckBox"), "change", function () {
+                layerVisibility(halal, this.checked);
+            });
+            on(dom.byId("oowCheckBox"), "change", function () {
+                layerVisibility(oow, this.checked);
+            });
+			  on(dom.byId("medreseCheckBox"), "change", function () {
+                layerVisibility(medrese, this.checked);
+            });
+			
+			function layerVisibility(layer, value) {
+                //(layer.visible) ? layer.hide() : layer.show();
+				layer.setVisibility(value);
+				legendDijit.refresh();
+            }
+			
+			on(dom.byId("bashCheckBox"), "change", function () {                layerVisibility1( this.value);            });
+			on(dom.byId("orenCheckBox"), "change", function () {                layerVisibility1( this.value);            });
+			on(dom.byId("chelCheckBox"), "change", function () {                layerVisibility1( this.value);            });
+			
+			function layerVisibility1( value) {
+               
+				borders.setDefinitionExpression("region LIKE'%"+value+"%'");
+				districts.setDefinitionExpression("ADM4_NAME LIKE '%"+value+"%'");
+				mosq.setDefinitionExpression("region LIKE '%"+value+"%'");
+				oow.setDefinitionExpression("region LIKE '%"+value+"%'");
+				halal.setDefinitionExpression("region LIKE '%"+value+"%'");
+				medrese.setDefinitionExpression("region LIKE '%"+value+"%'");
+				borders.refresh();
+				districts.refresh();
+				mosq.refresh();
+				oow.refresh();
+				halal.refresh();
+				medrese.refresh();
+				legendDijit.refresh();
+            }
+			
+			on(dom.byId("dumCheckBox"), "click", function () {
+                districts.setRenderer(renderer_MQ_DUM);
+				mosq.setDefinitionExpression("affiliation = 'ДУМ РБ'");
+				districts.refresh();
+				mosq.refresh();
+				legendDijit.refresh();
+            });
+			
+			on(dom.byId("cdumCheckBox"), "change", function () {
+                districts.setRenderer(renderer_MQ_СDUM);
+				mosq.setDefinitionExpression("affiliation = 'ЦДУМ'");
+				districts.refresh();
+				mosq.refresh();
+				legendDijit.refresh();
+            });
+				on(dom.byId("defCheckBox"), "change", function () {
+                districts.setRenderer(rendererforDS);
+				mosq.setDefinitionExpression();
+				districts.refresh();
+				mosq.refresh();
+				legendDijit.refresh();
+            });
+	
+}
+  );
+  </script>
+</head>
+<body>
+<div class="container">
+	<div id="sidebar">
+		<div id="tabs">
+			<ul>
+				<li><a href="#tabs-1">Легенда</a></li>
+				<li><a href="#tabs-3">Слои</a></li>
+				<li><a href="#tabs-2">Фото</a></li>
+			</ul>
+	<div id="tabs-1">
+		<div id="legendDiv"></div>
+	</div>
+	<div id="tabs-2">
+	</div>
+  	<div id="tabs-3">
+		<ul>
+			<li> <label><input type="checkbox" id='borderCheckBox' checked=checked> Регионы</label></br></li>
+		  <!-- <ul> <li><label><input type="radio" id='bashCheckBox' name="reg" value="Башкортостан">Башкортостан</label></br></li> -->
+		    <!-- <li> <label><input type="radio" id='orenCheckBox' name="reg" value="Оренбургская">Оренбургская область</label></br></li> -->
+			   <!-- <li><label><input type="radio" id='chelCheckBox' name="reg" value="Челябинская">Челябинская область</label></br></li> </ul> -->
+			<li> <label><input type="checkbox" id='distrCheckBox' checked=checked> Районы</label></br></li>
+		 		 <ul> 
+					<li> <label><input type="radio" id='dumCheckBox' name="ren" value="renderer_MQ_DUM">Распределение мечетей ДУМ РБ</label></br></li>
+					<li> <label><input type="radio" id='cdumCheckBox' name="ren" value= "renderer_MQ_DUM"> Распределение мечетей  ЦДУМ </label></br></li>
+					<li> <label><input type="radio" id='defCheckBox' name="ren" value= "rendererforDS"> Отключить </label></br></li>
+				</ul>
+			<li><label><input type="checkbox" id='mosqCheckBox' checked=checked> Мечети</label></br></li>
+			<li><label><input type="checkbox" id='halalCheckBox' checked=checked> Предприятия халяль</label></br></li>
+			<li><label><input type="checkbox" id='oowCheckBox' checked=checked> Объекты поклонения</label></br></li>
+			<li><label><input type="checkbox" id='medreseCheckBox' checked=checked> Медресе</label></br></li>
+		</ul>          
+   </div>
+		</div>
+	</div>
+
+<div class="main-content">
+			<a href="#" data-toggle=".container" id="sidebar-toggle">
+              <span class="bar"></span>
+              <span class="bar"></span>
+              <span class="bar"></span>
+			</a>
+			<div class="header">
+				<h3>Проект 15-01-12014 Геоинформационная система «Ислам на Южном Урале»</h3>
+				<div id="search"></div>
+			</div>
+			<div id="mapDiv"> 
+				<div id="HomeButton"></div>
+				<div class="createDIV"><img src="icon/22287.png" width="27px" height="27px"></div>
+				<div id="titlePane" >
+				<div id="measurementDiv"></div>
+				<div id="measure_off">Отключить</div>
+				</div>     
+            </div>
+     
+</div>
+</div>
+</body>
+</html>
