@@ -343,8 +343,8 @@ var regionColor = new Color("black");
 
 
   });
-  
-  var borders = new FeatureLayer("https://services5.arcgis.com/O2T0ds0EiaL85xvV/arcgis/rest/services/GISISL0905/FeatureServer/3",{
+  var urlstr = "https://services5.arcgis.com/3tQRizwEo8SqbPPS";
+  var borders = new FeatureLayer(urlstr+"/arcgis/rest/services/GISISL0905/FeatureServer/3",{
           mode: FeatureLayer.MODE_SNAPSHOT,
 		    infoTemplate: identifyPopupReg,
           //displayOnPan: false,
@@ -366,7 +366,7 @@ var regionColor = new Color("black");
 		rendererforBorder.addValue("Челябинская область", new SimpleFillSymbol("solid", new SimpleLineSymbol("solid", "#666", 1), new Color([153, 204, 0, 0.5])));
   		borders.setRenderer(rendererforBorder);
 
-  var mosq = new FeatureLayer("https://services5.arcgis.com/O2T0ds0EiaL85xvV/arcgis/rest/services/GISISL0905/FeatureServer/5",{    
+  var mosq = new FeatureLayer(urlstr+"/arcgis/rest/services/GISISL0905/FeatureServer/5",{    
       mode: FeatureLayer.MODE_SNAPSHOT,
       infoTemplate: popupTemplate1,
 	  title: "Мечети",
@@ -389,7 +389,7 @@ var regionColor = new Color("black");
 	  
 	  
 	  
-	    var dums = new FeatureLayer("https://services5.arcgis.com/O2T0ds0EiaL85xvV/arcgis/rest/services/dums0905/FeatureServer/0",{    
+	    var dums = new FeatureLayer(urlstr+"/arcgis/rest/services/dums0905/FeatureServer/0",{    
       mode: FeatureLayer.MODE_SNAPSHOT,
       infoTemplate: popupTemplateDUM,
 	  title: "Муфтияты",
@@ -409,7 +409,7 @@ var regionColor = new Color("black");
 	
 	
 
-  var oow = new FeatureLayer("https://services5.arcgis.com/O2T0ds0EiaL85xvV/arcgis/rest/services/GISISL0905/FeatureServer/4",{    
+  var oow = new FeatureLayer(urlstr+"/arcgis/rest/services/GISISL0905/FeatureServer/4",{    
       mode: FeatureLayer.MODE_ONDEMAND,
       infoTemplate: popupTemplate2,
       outFields:["*"]
@@ -428,7 +428,7 @@ var regionColor = new Color("black");
 		  rendererforPOKL.addValue("иное", new PictureMarkerSymbol("icon/web/inoe.png", 15 ,15));
 		   oow.setRenderer(rendererforPOKL);
 		   
-  var halal = new FeatureLayer("https://services5.arcgis.com/O2T0ds0EiaL85xvV/arcgis/rest/services/GISISL0905/FeatureServer/0",{
+  var halal = new FeatureLayer(urlstr+"/arcgis/rest/services/GISISL0905/FeatureServer/0",{
       mode: FeatureLayer.MODE_ONDEMAND,
       infoTemplate:identifyPopup3,
       outFields:["*"]
@@ -441,7 +441,7 @@ var othersHALAL = new PictureMarkerSymbol("icon/web/halal.png", 10 ,10);
 	  
 	  
 	  
-	   var medrese = new FeatureLayer("https://services5.arcgis.com/O2T0ds0EiaL85xvV/arcgis/rest/services/GISISL0905/FeatureServer/6",{
+	   var medrese = new FeatureLayer(urlstr+"/arcgis/rest/services/GISISL0905/FeatureServer/6",{
       mode: FeatureLayer.MODE_ONDEMAND,
       infoTemplate:identifyPopup4,
       outFields:["*"]
@@ -485,7 +485,7 @@ var othersMEDRESE = new PictureMarkerSymbol("icon/web/medrese.png", 10 ,10);
 
   });
   
-	 var districts = new FeatureLayer("https://services5.arcgis.com/O2T0ds0EiaL85xvV/arcgis/rest/services/GISISL0905/FeatureServer/2",{
+	 var districts = new FeatureLayer(urlstr+"/arcgis/rest/services/GISISL0905/FeatureServer/2",{
       mode: FeatureLayer.MODE_ONDEMAND,
 	  infoTemplate:identifyPopupMQ_DUM,
       outFields:["*"],
