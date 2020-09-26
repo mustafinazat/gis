@@ -173,7 +173,7 @@ PictureMarkerSymbol,
   if (evt.graphic.attributes.build_name!=null) {titleMQ=titleMQ+ ", "+evt.graphic.attributes.build_name;}
   
   
-createDIVpic(pic1url,pic2url,pic3url,pic4url,titleMQ);
+createDIVpic("none",pic2url,pic3url,pic4url,titleMQ);
    };
 		function createDIVpic()
 		 
@@ -194,7 +194,7 @@ createDIVpic(pic1url,pic2url,pic3url,pic4url,titleMQ);
 	link.appendChild(img);
 	tab2.appendChild(link)
 	}
-	 if (arguments[0]==null){
+	 if (arguments[0]=="none"){
 	var p = document.createElement ('p');
 	p.innerText="Фото на обработке";
 	tab2.appendChild(p);
